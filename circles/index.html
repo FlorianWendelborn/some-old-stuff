@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<title>Canvas Test</title>
+		<script type="text/javascript">
+			var ani_size = 0;
+			var ani_change = "up";
+			
+			function draw(){
+				var canvas = document.getElementById('canvas');
+				if (canvas.getContext){
+					ctx = canvas.getContext('2d');
+				}
+				circle = new Array();
+				circle[0] = new CanvasCircle(120,150,26,40,"#fe6622");
+				circle[1] = new CanvasCircle(234,190,10,25,"#fedcba");
+				circle[2] = new CanvasCircle(150,220,25,30,"#abcdef");
+				circle[3] = new CanvasCircle(240,100,25,45,"#2c4f1a");
+				circle[0].setScaleAC(0.1,2.5,1,0.05);
+				circle[0].setScaleBD(0.1,3.5,1,0.05);
+				circle[3].setScaleAC(0.5,10,1,0.5);
+				circle[3].setScaleBD(1,2,1,0.01);
+				setInterval("renderAll(circle);",40);
+			}
+			function renderAll(renderThis){
+				ctx.clearRect(0,0,500,500);
+				for(i=0;i<renderThis.length;i++){
+					renderThis[i].render();
+				}
+			}
+			function CanvasCircle(x,y,minSize,maxSize,color){
+				this.x=x;
+				this.y=y;
+				this.minSize=minSize;
+				this.maxSize=maxSize;
+				this.color=color;
+				this.size = (maxSize+minSize)/2;
+				this.change = "up";
+				this.scaleChangeAC = "AC";
+				this.scaleChangeBD = "BD";
+				
+				this.minScaleAC = 0.5;
+				this.maxScaleAC = 1.5;
+				this.scaleAC = 1;
+				this.scaleStepsAC = 0.01;
+				
+				this.minScaleBD = 0.3;
+				this.maxScaleBD = 1.2;
+				this.scaleBD = 1;
+				this.scaleStepsBD = 0.01;
+			}
+			function canvasCircleSetScaleAC(minScaleAC,maxScaleAC,scaleAC,scaleStepsAC){
+				this.minScaleAC = minScaleAC;
+				this.maxScaleAC = maxScaleAC;
+				this.scaleAC = scaleAC;
+				this.scaleStepsAC = scaleStepsAC;
+			}
+			function canvasCircleSetScaleBD(minScaleBD,maxScaleBD,scaleBD,scaleStepsBD){
+				this.minScaleBD = minScaleBD;
+				this.maxScaleBD = maxScaleBD;
+				this.scaleBD = scaleBD;
+				this.scaleStepsBD = scaleStepsBD;
+			}
+			function canvasCircleRender() {
+				//Size
+				if(this.change == "up" && this.size >= this.maxSize){
+					this.change = "down";
+				}
+				else if(this.change == "down" && this.size <= this.minSize){
+					this.change = "up";
+				}
+				
+				if(this.change == "up"){
+					this.size++;
+				}
+				else{
+					this.size--;
+				}
+				//ScaleAC
+				if(this.scaleChangeAC == "AC" && this.scaleAC >= this.maxScaleAC){
+					this.scaleChangeAC = "CA";
+				}
+				else if(this.scaleChangeAC == "CA" && this.scaleAC <= this.minScaleAC){
+					this.scaleChangeAC = "AC";
+				}
+				
+				if(this.scaleChangeAC == "AC"){
+					this.scaleAC = this.scaleAC+this.scaleStepsAC;
+				}
+				else{
+					this.scaleAC = this.scaleAC-this.scaleStepsAC;
+				}
+				//ScaleBD
+				if(this.scaleChangeBD == "BD" && this.scaleBD >= this.maxScaleBD){
+					this.scaleChangeBD = "DB";
+				}
+				else if(this.scaleChangeBD == "DB" && this.scaleBD <= this.minScaleBD){
+					this.scaleChangeBD = "BD";
+				}
+				
+				if(this.scaleChangeBD == "BD"){
+					this.scaleBD = this.scaleBD+this.scaleStepsBD;
+				}
+				else{
+					this.scaleBD = this.scaleBD-this.scaleStepsBD;
+				}
+				
+				ctx.fillStyle = this.color;
+				
+				ctx.save();
+				ctx.beginPath();
+				ctx.translate(this.x,this.y);
+				ctx.scale(this.scaleAC,this.scaleBD);
+				ctx.arc(0,0,this.size,0,Math.PI*2, true);
+				ctx.closePath();
+				ctx.fill();
+				ctx.restore();
+			}
+			CanvasCircle.prototype.render=canvasCircleRender;
+			CanvasCircle.prototype.setScaleAC=canvasCircleSetScaleAC;
+			CanvasCircle.prototype.setScaleBD=canvasCircleSetScaleBD;
+		</script>
+		<style type="text/css">
+			canvas{
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body onload="draw();">
+		<canvas id="canvas" width="500" height="500"></canvas>
+	</body>
+</html>
