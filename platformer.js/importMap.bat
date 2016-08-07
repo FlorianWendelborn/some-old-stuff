@@ -1,0 +1,1 @@
+node importMap.js tiledMap.json map.json

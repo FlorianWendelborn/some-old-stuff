@@ -1,0 +1,59 @@
+<input type="button" onmousedown="toggleStartStop();" value="toggle">
+<script type="text/javascript">
+var recognizing;
+var recognition = new webkitSpeechRecognition();
+recognition.continuous = true;
+reset();
+recognition.onend = reset;
+
+recognition.onresult = function(event) {
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        interpret(event.results[i][0].transcript);
+      }
+    }
+  };
+
+function reset() {
+  recognizing = false;
+}
+
+function toggleStartStop() {
+  if (recognizing) {
+    recognition.stop();
+    reset();
+  } else {
+    recognition.start();
+    recognizing = true;
+  }
+}
+
+function interpret (s) {
+  console.log("Trying to understand " + s);
+  var c,a;
+  if (s.match("green")) {
+    c = 1;
+  } else if (s.match("yellow")) {
+    c = 2;
+  } else {
+    c = 3;
+  }
+  if (s.match("on ") || s.match(" on")) {
+    a = "on";
+  } else {
+    a = "off";
+  }
+  if (s.match("second")) {
+    c = c+3;
+  }
+  if (s.match("good job")) {
+    alert("thanks");
+  } else if (s.match("Google") || s.match("google")) {
+    document.getElementById("iframe").src = location.href + "ping";
+  } else {
+    document.getElementById("iframe").src = location.href + "" + c + "" + a;
+  }
+}
+
+</script>
+<iframe id="iframe" style="visibility: hidden;"></iframe>
