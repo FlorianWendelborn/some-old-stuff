@@ -1,0 +1,35 @@
+{
+  "name": "tripwn",
+  "version": "0.0.0",
+  "description": "Triangle-based multiplayer conquering game.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FlorianWendelborn/tripwn"
+  },
+  "keywords": [
+    "triangle",
+    "multiplayer",
+    "game",
+    "conquer",
+    "webgl"
+  ],
+  "author": "Florian Wendelborn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FlorianWendelborn/tripwn/issues"
+  },
+  "homepage": "https://github.com/FlorianWendelborn/tripwn",
+  "dependencies": {
+    "body-parser": "^1.7.0",
+    "cookie-parser": "^1.3.2",
+    "express": "^4.8.7",
+    "express-session": "^1.7.6",
+    "mongodb": "^1.4.9",
+    "sessionstore": "^1.0.5",
+    "ws": "^0.4.32"
+  }
+}
