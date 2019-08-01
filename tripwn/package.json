@@ -30,6 +30,6 @@
     "express-session": "^1.7.6",
     "mongodb": "^1.4.9",
     "sessionstore": "^1.0.5",
-    "ws": "^0.4.32"
+    "ws": "^7.1.1"
   }
 }
